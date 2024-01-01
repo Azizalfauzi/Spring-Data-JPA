@@ -20,4 +20,19 @@ public class CategoryRepositoryTest {
         categoryRepository.save(category);
         Assertions.assertNotNull(category.getId());
     }
+
+    @Test
+    void updateCategory() {
+        Category category = categoryRepository.findById(1L).orElse(null);
+        Assertions.assertNotNull(category);
+
+        category.setName("GADGET Murah");
+        categoryRepository.save(category);
+
+//        categoryRepository.delete(category)
+
+        category = categoryRepository.findById(1L).orElse(null);
+        Assertions.assertNotNull(category);
+        Assertions.assertEquals("GADGET Murah", category.getName());
+    }
 }

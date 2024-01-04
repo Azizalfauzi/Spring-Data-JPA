@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Sort;
 import zuhaproject.spring.jpa.entity.Category;
 import zuhaproject.spring.jpa.entity.Product;
 import zuhaproject.spring.jpa.repository.CategoryRepository;
@@ -48,5 +49,14 @@ public class ProductRepositoryTest {
         Assertions.assertEquals(2, products.size());
         Assertions.assertEquals("APPLE IPHONE 14 Pro-Max", products.get(0).getName());
         Assertions.assertEquals("APPLE IPHONE 13 Pro-Max", products.get(1).getName());
+    }
+
+    @Test
+    void sort() {
+        Sort sort = Sort.by(Sort.Order.desc("id"));
+        List<Product> products = productRepository.findAllByCategory_Name("GADGET Murah",sort);
+        Assertions.assertEquals(2, products.size());
+        Assertions.assertEquals("APPLE IPHONE 13 Pro-Max", products.get(0).getName());
+        Assertions.assertEquals("APPLE IPHONE 14 Pro-Max", products.get(1).getName());
     }
 }

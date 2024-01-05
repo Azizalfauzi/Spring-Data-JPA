@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import zuhaproject.spring.jpa.entity.Category;
 import zuhaproject.spring.jpa.entity.Product;
@@ -54,9 +56,23 @@ public class ProductRepositoryTest {
     @Test
     void sort() {
         Sort sort = Sort.by(Sort.Order.desc("id"));
-        List<Product> products = productRepository.findAllByCategory_Name("GADGET Murah",sort);
+        List<Product> products = productRepository.findAllByCategory_Name("GADGET Murah", sort);
         Assertions.assertEquals(2, products.size());
         Assertions.assertEquals("APPLE IPHONE 13 Pro-Max", products.get(0).getName());
         Assertions.assertEquals("APPLE IPHONE 14 Pro-Max", products.get(1).getName());
+    }
+
+    @Test
+    void pageable() {
+//        Page 0
+        Pageable pageable = PageRequest.of(0, 1, Sort.by(Sort.Order.desc("id")));
+        List<Product> products = productRepository.findAllByCategory_Name("Gadget Murah", pageable);
+        Assertions.assertEquals(1, products.size());
+        Assertions.assertEquals("APPLE IPHONE 13 Pro-Max", products.get(0).getName());
+//      Page 1
+        pageable = PageRequest.of(1, 1, Sort.by(Sort.Order.desc("id")));
+        products = productRepository.findAllByCategory_Name("Gadget Murah", pageable);
+        Assertions.assertEquals(1, products.size());
+        Assertions.assertEquals("APPLE IPHONE 14 Pro-Max", products.get(0).getName());
     }
 }

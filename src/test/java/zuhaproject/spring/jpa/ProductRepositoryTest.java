@@ -82,4 +82,16 @@ public class ProductRepositoryTest {
         Assertions.assertEquals(2, products.getTotalPages());
         Assertions.assertEquals("APPLE IPHONE 14 Pro-Max", products.getContent().get(0).getName());
     }
+
+    @Test
+    void count() {
+        Long count = productRepository.count();
+        Assertions.assertEquals(2L, count);
+
+        count = productRepository.countByCategory_Name("Gadget Murah");
+        Assertions.assertEquals(2L, count);
+
+        count = productRepository.countByCategory_Name("Gadget Ga ada");
+        Assertions.assertEquals(0L, count);
+    }
 }

@@ -94,4 +94,13 @@ public class ProductRepositoryTest {
         count = productRepository.countByCategory_Name("Gadget Ga ada");
         Assertions.assertEquals(0L, count);
     }
+
+    @Test
+    void exists() {
+        boolean product = productRepository.existsByName("APPLE IPHONE 14 Pro-Max");
+        Assertions.assertTrue(product);
+
+        product = productRepository.existsByName("APPLE IPHONE 14 Pro");
+        Assertions.assertFalse(product);
+    }
 }

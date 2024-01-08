@@ -20,4 +20,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Long countByCategory_Name(String name);
 
     boolean existsByName(String name);
+
+    int deleteByName(String name);
 }

@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.transaction.support.TransactionOperations;
 import zuhaproject.spring.jpa.entity.Category;
 import zuhaproject.spring.jpa.entity.Product;
 import zuhaproject.spring.jpa.repository.CategoryRepository;
@@ -21,6 +22,9 @@ public class ProductRepositoryTest {
     private CategoryRepository categoryRepository;
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private TransactionOperations transactionOperations;
 
 
     @Test
@@ -102,5 +106,26 @@ public class ProductRepositoryTest {
 
         product = productRepository.existsByName("APPLE IPHONE 14 Pro");
         Assertions.assertFalse(product);
+    }
+
+    @Test
+    void delete() {
+        transactionOperations.executeWithoutResult(transactionStatus -> {
+            Category category = categoryRepository.findById(1L).orElse(null);
+            Assertions.assertNotNull(category);
+
+            Product product = new Product();
+            product.setName("Samsung Galaxy S9");
+            product.setPrice(10_000_000L);
+            product.setCategory(category);
+            productRepository.save(product);
+
+            int delete = productRepository.deleteByName("Samsung Galaxy S9");
+            Assertions.assertEquals(1, delete);
+
+            delete = productRepository.deleteByName("Samsung Galaxy S9");
+            Assertions.assertEquals(0, delete);
+
+        });
     }
 }

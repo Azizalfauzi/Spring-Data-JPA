@@ -146,4 +146,11 @@ public class ProductRepositoryTest {
         delete = productRepository.deleteByName("Samsung Galaxy S9");// Transaksi 1
         Assertions.assertEquals(0, delete);
     }
+
+    @Test
+    void searchProductByName() {
+        List<Product> products = productRepository.searchProductUsingName("APPLE IPHONE 14 Pro-Max");
+        Assertions.assertEquals(1, products.size());
+        Assertions.assertEquals("APPLE IPHONE 14 Pro-Max", products.get(0).getName());
+    }
 }

@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import zuhaproject.spring.jpa.entity.Product;
@@ -24,4 +25,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Transactional
     int deleteByName(String name);
+
+    List<Product> searchProductUsingName(@Param("name") String name);
 }

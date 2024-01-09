@@ -149,7 +149,8 @@ public class ProductRepositoryTest {
 
     @Test
     void searchProductByName() {
-        List<Product> products = productRepository.searchProductUsingName("APPLE IPHONE 14 Pro-Max");
+        Pageable pageable = PageRequest.of(0, 1);
+        List<Product> products = productRepository.searchProductUsingName("APPLE IPHONE 14 Pro-Max", pageable);
         Assertions.assertEquals(1, products.size());
         Assertions.assertEquals("APPLE IPHONE 14 Pro-Max", products.get(0).getName());
     }

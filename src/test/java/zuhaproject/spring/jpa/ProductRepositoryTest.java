@@ -4,10 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.transaction.support.TransactionOperations;
 import zuhaproject.spring.jpa.entity.Category;
 import zuhaproject.spring.jpa.entity.Product;
@@ -197,5 +194,20 @@ public class ProductRepositoryTest {
             Stream<Product> stream = productRepository.streamAllByCategory(category);
             stream.forEach(product -> System.out.println(product.getId() + " : " + product.getName()));
         });
+    }
+
+    @Test
+    void slice() {
+        Pageable firstPage = PageRequest.of(0, 1);
+
+        Category category = categoryRepository.findById(1L).orElse(null);
+        Assertions.assertNotNull(category);
+
+        Slice<Product> slice = productRepository.findAllByCategory(category, firstPage);
+        //  Tampilkan semua data dalam konten
+        while (slice.hasNext()) {
+            slice = productRepository.findAllByCategory(category, slice.previousPageable());
+        //  Tampilkan konten produk
+        }
     }
 }

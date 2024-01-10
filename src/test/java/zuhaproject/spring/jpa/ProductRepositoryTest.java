@@ -157,10 +157,11 @@ public class ProductRepositoryTest {
 
     @Test
     void searchProduct() {
-        List<Product> products = productRepository.searchProduct("%IPHONE%");
-        Assertions.assertEquals(2, products.size());
+        Pageable pageable = PageRequest.of(0, 1, Sort.by(Sort.Order.desc("id")));
+        List<Product> products = productRepository.searchProduct("%IPHONE%", pageable);
+        Assertions.assertEquals(1, products.size());
 
-        products = productRepository.searchProduct("%Gadget%");
-        Assertions.assertEquals(2, products.size());
+        products = productRepository.searchProduct("%Gadget%", pageable);
+        Assertions.assertEquals(1, products.size());
     }
 }

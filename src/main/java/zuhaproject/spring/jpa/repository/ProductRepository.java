@@ -30,5 +30,5 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> searchProductUsingName(@Param("name") String name, Pageable pageable);
 
     @Query(value = "select p from Product p where p.name like :name or p.category.name like :name")
-    List<Product> searchProduct(@Param("name") String name);
+    List<Product> searchProduct(@Param("name") String name, Pageable pageable);
 }

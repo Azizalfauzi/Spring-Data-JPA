@@ -158,10 +158,16 @@ public class ProductRepositoryTest {
     @Test
     void searchProduct() {
         Pageable pageable = PageRequest.of(0, 1, Sort.by(Sort.Order.desc("id")));
-        List<Product> products = productRepository.searchProduct("%IPHONE%", pageable);
-        Assertions.assertEquals(1, products.size());
+        Page<Product> products = productRepository.searchProduct("%IPHONE%", pageable);
+        Assertions.assertEquals(1, products.getContent().size());
+        Assertions.assertEquals(0, products.getNumber());
+        Assertions.assertEquals(2, products.getTotalPages());
+        Assertions.assertEquals(2, products.getTotalElements());
 
         products = productRepository.searchProduct("%Gadget%", pageable);
-        Assertions.assertEquals(1, products.size());
+        Assertions.assertEquals(1, products.getContent().size());
+        Assertions.assertEquals(0, products.getNumber());
+        Assertions.assertEquals(2, products.getTotalPages());
+        Assertions.assertEquals(2, products.getTotalElements());
     }
 }

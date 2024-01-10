@@ -154,4 +154,13 @@ public class ProductRepositoryTest {
         Assertions.assertEquals(1, products.size());
         Assertions.assertEquals("APPLE IPHONE 14 Pro-Max", products.get(0).getName());
     }
+
+    @Test
+    void searchProduct() {
+        List<Product> products = productRepository.searchProduct("%IPHONE%");
+        Assertions.assertEquals(2, products.size());
+
+        products = productRepository.searchProduct("%Gadget%");
+        Assertions.assertEquals(2, products.size());
+    }
 }

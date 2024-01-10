@@ -15,6 +15,7 @@ import zuhaproject.spring.jpa.repository.CategoryRepository;
 import zuhaproject.spring.jpa.repository.ProductRepository;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 @SpringBootTest
 public class ProductRepositoryTest {
@@ -184,6 +185,17 @@ public class ProductRepositoryTest {
             Product product = productRepository.findById(1L).orElse(null);
             Assertions.assertNotNull(product);
             Assertions.assertEquals(0L, product.getPrice());
+        });
+    }
+
+    @Test
+    void stream() {
+        transactionOperations.executeWithoutResult(transactionStatus -> {
+            Category category = categoryRepository.findById(1L).orElse(null);
+            Assertions.assertNotNull(category);
+
+            Stream<Product> stream = productRepository.streamAllByCategory(category);
+            stream.forEach(product -> System.out.println(product.getId() + " : " + product.getName()));
         });
     }
 }

@@ -35,4 +35,15 @@ public class CategoryRepositoryTest {
         Assertions.assertNotNull(category);
         Assertions.assertEquals("GADGET Murah", category.getName());
     }
+
+    @Test
+    void audit() {
+        Category category = new Category();
+        category.setName("Sample audit");
+        categoryRepository.save(category);
+
+        Assertions.assertNotNull(category.getId());
+        Assertions.assertNotNull(category.getCreatedDate());
+        Assertions.assertNotNull(category.getLastModifiedDate());
+    }
 }

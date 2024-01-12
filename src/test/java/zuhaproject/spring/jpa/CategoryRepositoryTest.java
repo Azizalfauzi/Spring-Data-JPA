@@ -4,8 +4,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Example;
 import zuhaproject.spring.jpa.entity.Category;
 import zuhaproject.spring.jpa.repository.CategoryRepository;
+
+import java.util.List;
 
 @SpringBootTest
 public class CategoryRepositoryTest {
@@ -45,5 +48,15 @@ public class CategoryRepositoryTest {
         Assertions.assertNotNull(category.getId());
         Assertions.assertNotNull(category.getCreatedDate());
         Assertions.assertNotNull(category.getLastModifiedDate());
+    }
+
+    @Test
+    void example() {
+        Category category = new Category();
+        category.setName("GADGET MURAH");
+
+        Example<Category> example = Example.of(category);
+        List<Category> categories = categoryRepository.findAll(example);
+        Assertions.assertEquals(1, categories.size());
     }
 }

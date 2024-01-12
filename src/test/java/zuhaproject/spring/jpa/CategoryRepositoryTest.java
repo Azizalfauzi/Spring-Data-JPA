@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import zuhaproject.spring.jpa.entity.Category;
 import zuhaproject.spring.jpa.repository.CategoryRepository;
 
@@ -67,6 +68,18 @@ public class CategoryRepositoryTest {
         category.setId(1L);
 
         Example<Category> example = Example.of(category);
+        List<Category> categories = categoryRepository.findAll(example);
+        Assertions.assertEquals(1, categories.size());
+    }
+
+    @Test
+    void exampleMatcher() {
+        Category category = new Category();
+        category.setName("gadget MURAH");
+        ExampleMatcher matcher = ExampleMatcher.matching().withIgnoreNullValues().withIgnoreCase();
+
+
+        Example<Category> example = Example.of(category, matcher);
         List<Category> categories = categoryRepository.findAll(example);
         Assertions.assertEquals(1, categories.size());
     }

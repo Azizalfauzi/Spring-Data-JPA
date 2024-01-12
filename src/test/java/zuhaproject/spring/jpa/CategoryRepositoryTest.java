@@ -59,4 +59,15 @@ public class CategoryRepositoryTest {
         List<Category> categories = categoryRepository.findAll(example);
         Assertions.assertEquals(1, categories.size());
     }
+
+    @Test
+    void example2() {
+        Category category = new Category();
+        category.setName("GADGET MURAH");
+        category.setId(1L);
+
+        Example<Category> example = Example.of(category);
+        List<Category> categories = categoryRepository.findAll(example);
+        Assertions.assertEquals(1, categories.size());
+    }
 }

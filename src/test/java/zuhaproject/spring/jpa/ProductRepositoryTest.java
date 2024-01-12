@@ -207,7 +207,33 @@ public class ProductRepositoryTest {
         //  Tampilkan semua data dalam konten
         while (slice.hasNext()) {
             slice = productRepository.findAllByCategory(category, slice.previousPageable());
-        //  Tampilkan konten produk
+            //  Tampilkan konten produk
         }
+    }
+
+    @Test
+    void lock1() {
+        transactionOperations.executeWithoutResult(transactionStatus -> {
+            try {
+                Product product = productRepository.findFirstByIdEquals(1L).orElse(null);
+                Assertions.assertNotNull(product);
+                product.setPrice(30_000_000L);
+
+                Thread.sleep(20_000L);
+                productRepository.save(product);
+            } catch (InterruptedException exception) {
+                throw new RuntimeException(exception);
+            }
+        });
+    }
+
+    @Test
+    void lock2() {
+        transactionOperations.executeWithoutResult(transactionStatus -> {
+            Product product = productRepository.findFirstByIdEquals(1L).orElse(null);
+            Assertions.assertNotNull(product);
+            product.setPrice(10_000_000L);
+            productRepository.save(product);
+        });
     }
 }

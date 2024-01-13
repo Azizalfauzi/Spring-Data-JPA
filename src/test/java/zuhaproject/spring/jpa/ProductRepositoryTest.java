@@ -10,6 +10,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.support.TransactionOperations;
 import zuhaproject.spring.jpa.entity.Category;
 import zuhaproject.spring.jpa.entity.Product;
+import zuhaproject.spring.jpa.model.ProductPrice;
 import zuhaproject.spring.jpa.model.SimpleProduct;
 import zuhaproject.spring.jpa.repository.CategoryRepository;
 import zuhaproject.spring.jpa.repository.ProductRepository;
@@ -254,7 +255,9 @@ public class ProductRepositoryTest {
 
     @Test
     void projection() {
-        List<SimpleProduct> simpleProducts = productRepository.findAllByNameLike("%Apple%");
+        List<SimpleProduct> simpleProducts = productRepository.findAllByNameLike("%Apple%", SimpleProduct.class);
         Assertions.assertEquals(2, simpleProducts.size());
+        List<ProductPrice> productPrices = productRepository.findAllByNameLike("%Apple%", ProductPrice.class);
+        Assertions.assertEquals(2, productPrices.size());
     }
 }

@@ -1,10 +1,12 @@
 package zuhaproject.spring.jpa;
 
+import lombok.val;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.*;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.support.TransactionOperations;
 import zuhaproject.spring.jpa.entity.Category;
 import zuhaproject.spring.jpa.entity.Product;
@@ -235,5 +237,17 @@ public class ProductRepositoryTest {
             product.setPrice(10_000_000L);
             productRepository.save(product);
         });
+    }
+
+    @Test
+    void spesification() {
+        Specification<Product> specification = ((root, criteriaQuery, criteriaBuilder) -> {
+            return criteriaQuery.where(criteriaBuilder.or(
+                    criteriaBuilder.equal(root.get("name"), "APPLE IPHONE 14 Pro-Max"),
+                    criteriaBuilder.equal(root.get("name"), "APPLE IPHONE 13 Pro-Max"))).getRestriction();
+        });
+
+        List<Product> products = productRepository.findAll(specification);
+        Assertions.assertEquals(2, products.size());
     }
 }

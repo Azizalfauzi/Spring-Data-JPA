@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import zuhaproject.spring.jpa.entity.Category;
 import zuhaproject.spring.jpa.entity.Product;
+import zuhaproject.spring.jpa.model.SimpleProduct;
 
 import java.util.List;
 import java.util.Optional;
@@ -51,4 +52,6 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     Optional<Product> findFirstByIdEquals(Long id);
+
+    List<SimpleProduct> findAllByNameLike(String name);
 }

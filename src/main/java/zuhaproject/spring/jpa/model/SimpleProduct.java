@@ -1,7 +1,5 @@
 package zuhaproject.spring.jpa.model;
 
-public interface SimpleProduct {
-    Long getId();
+public record SimpleProduct(Long id,String name){
 
-    String getName();
 }
